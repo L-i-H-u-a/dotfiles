@@ -20,7 +20,7 @@ if ! read -rt 5 flag; then
     mkfs.btrfs -vfn 32k "$disk"2
 
     mount -vo compress=zstd "$disk"2 /mnt
-    echo -n ,home,log,pkg,.snapshots | xargs -i -d, btrfs -v subvolume create /mnt/@{}
+    echo -n ,home,log,pkg,.snapshots | xargs -I{} -d, btrfs -v subvolume create /mnt/@{}
     umount -vR /mnt
 fi
 
