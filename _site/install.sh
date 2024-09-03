@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-set -e
-
 check_command() {
     if ! command -v "$1" &> /dev/null; then
         echo "$1 command not found. Please install $2."
