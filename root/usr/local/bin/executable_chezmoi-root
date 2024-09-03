@@ -1,9 +1,9 @@
 #!/usr/bin/zsh
 PATH='/usr/bin'
 HOME='/'
-if [[ x"$1" == "xadd" ]; then
-    chezmoi -S "/home/$(id -un 1000)/.local/share/chezmoi/root" $@
+if [[ "x$1" == "xadd" ]; then
+    chezmoi -S "/home/$(id -un)/.local/share/chezmoi/root" $@
 else
-    sudo -E chezmoi -S "/home/$(id -un 1000)/.local/share/chezmoi/root" $@
+    sudo -E chezmoi -S "/home/$(id -un)/.local/share/chezmoi/root" $@
     sudo -k
 fi
