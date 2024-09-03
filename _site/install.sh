@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+
+set -e
+
 if [[ -b '/dev/sda' ]]; then
     disk='/dev/sda'
 elif [[ -b '/dev/vda' ]]; then
@@ -12,7 +15,7 @@ if ! read -rt 5 flag; then
        echo 'sfdisk command not found. Please install util-linux.'
         exit 1
     fi
-
+    
     if ! command -v parted &> /dev/null; then
         echo 'parted command not found. Please install parted.'
         exit 1
