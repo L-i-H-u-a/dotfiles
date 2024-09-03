@@ -9,7 +9,7 @@ fi
 
 if ! read -rt 5 flag; then
     if ! command -v btrfs &> /dev/null; then
-        echo "btrfs command not found. Please install btrfs-progs."
+        echo 'btrfs command not found. Please install btrfs-progs.'
         exit 1
     fi
     sfdisk --delete "$disk"
@@ -22,12 +22,12 @@ if ! read -rt 5 flag; then
 
     mkfs.fat -vF 32 "$disk"1
     if ! mkfs.btrfs -vfn 32k "$disk"2; then
-        echo "Failed to create btrfs filesystem on $disk2."
+        echo 'Failed to create btrfs filesystem on '$disk'2.'
         exit 1
     fi
 
     if ! mount -vo compress=zstd "$disk"2 /mnt; then
-        echo "Failed to mount $disk2."
+        echo 'Failed to mount '$disk'2.'
         exit 1
     fi
     echo -n ,home,log,pkg,.snapshots | xargs -I{} -d, btrfs -v subvolume create /mnt/@{}
