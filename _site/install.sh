@@ -2,6 +2,13 @@
 
 set -e
 
+check_command() {
+    if ! command -v "$1" &> /dev/null; then
+        echo "$1 command not found. Please install $2."
+        exit 1
+    fi
+}
+
 if [[ -b '/dev/sda' ]]; then
     disk='/dev/sda'
 elif [[ -b '/dev/vda' ]]; then
@@ -11,20 +18,10 @@ else
 fi
 
 if ! read -rt 5 flag; then
-    if ! command -v sfdisk &> /dev/null; then
-       echo 'sfdisk command not found. Please install util-linux.'
-        exit 1
-    fi
+    check_command sfdisk util-linux
+    check_command parted parted
+    check_command btrfs btrfs-progs
     
-    if ! command -v parted &> /dev/null; then
-        echo 'parted command not found. Please install parted.'
-        exit 1
-    fi
-    
-    if ! command -v btrfs &> /dev/null; then
-        echo 'btrfs command not found. Please install btrfs-progs.'
-        exit 1
-    fi
     sfdisk --delete "$disk"
     parted -sa  opt "$disk"             \
         mklabel gpt                     \
