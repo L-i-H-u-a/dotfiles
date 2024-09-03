@@ -8,6 +8,16 @@ else
 fi
 
 if ! read -rt 5 flag; then
+    if ! command -v sfdisk &> /dev/null; then
+       echo 'sfdisk command not found. Please install util-linux.'
+        exit 1
+    fi
+
+    if ! command -v parted &> /dev/null; then
+        echo 'parted command not found. Please install parted.'
+        exit 1
+    fi
+    
     if ! command -v btrfs &> /dev/null; then
         echo 'btrfs command not found. Please install btrfs-progs.'
         exit 1
@@ -22,12 +32,12 @@ if ! read -rt 5 flag; then
 
     mkfs.fat -vF 32 "$disk"1
     if ! mkfs.btrfs -vfn 32k "$disk"2; then
-        echo 'Failed to create btrfs filesystem on '$disk'2.'
+        echo "Failed to create btrfs filesystem on ${disk}2. Please check the disk and try again."
         exit 1
     fi
 
     if ! mount -vo compress=zstd "$disk"2 /mnt; then
-        echo 'Failed to mount '$disk'2.'
+        echo "Failed to mount ${disk}2. Please check the mount point and try again."
         exit 1
     fi
     echo -n ,home,log,pkg,.snapshots | xargs -I{} -d, btrfs -v subvolume create /mnt/@{}
