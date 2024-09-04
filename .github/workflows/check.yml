@@ -1,0 +1,25 @@
+name: Check
+
+on:
+  push:
+    paths:
+      - ".github/workflows/check.yml"
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux/archlinux:latest
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: /var/cache/pacman/pkg
+          key: ${{ runner.os }}
+
+      - run: pacman-key --init
+      - run: pacman-key --populate archlinux
+      - run: echo '[archlinuxcn]' >> /etc/pacman.conf
+      - run: echo 'Server = https://repo.archlinuxcn.org/$arch' >> /etc/pacman.conf
+      - run: pacman --noconfirm -Sy archlinuxcn-keyring
