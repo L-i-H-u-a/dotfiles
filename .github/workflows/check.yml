@@ -22,7 +22,9 @@ jobs:
 
       - run: pacman-key --init
       - run: pacman-key --populate archlinux
+      - run: pacman-key --recv-key 3056513887B78AEB
+      - run: pacman-key --lsign-key 3056513887B78AEB
       - run: cp -v root/etc/pacman.conf /etc/pacman.conf
       - run: cp -vr root/etc/pacman.d/hooks /etc/pacman.d
-      - run: pacman -Sy --needed --noconfirm archlinuxcn-keyring
+      - run: pacman -Sy --needed --noconfirm archlinuxcn-keyring chaotic-keyring
       - run: pacman -Sy --needed --noconfirm $(<packages.install) $(<packages.uninstall)
