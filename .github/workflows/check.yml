@@ -27,4 +27,6 @@ jobs:
       - run: cp -v root/etc/pacman.conf /etc/pacman.conf
       - run: cp -vr root/etc/pacman.d/hooks /etc/pacman.d
       - run: pacman -Sy --needed --noconfirm archlinuxcn-keyring chaotic-keyring
-      - run: pacman -Sy --needed --noconfirm $(<packages.install) $(<packages.uninstall)
+      - run: pacman -Sy --needed --noconfirm $(<packages.install)
+      - run: pacman -Sy --needed --noconfirm $(<packages.uninstall)
+      - run: pacman -Rsc --needed --noconfirm $(<packages.uninstall)
